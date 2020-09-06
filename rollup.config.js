@@ -9,14 +9,18 @@ import svelte from "rollup-plugin-svelte";
 import sveltePreprocessor from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
 
-const isProduction = process.env.NODE_ENV === "production";
-const dist = isProduction ? "./prod" : "./dev";
-const minify = isProduction ? {
+const isDevelopment = process.env.NODE_ENV === "development",
+  dist = isDevelopment ? "./dev" : "./prod",
+  useSvelteDev = !isDevelopment,
+  useSourceMap = !isDevelopment,
+  useTerser = isDevelopment,
+  useServe = !!process.env.ROLLUP_WATCH,
+  useLivereload = !!process.env.ROLLUP_WATCH,
+  minify = isDevelopment ? false : {
     removeComments: true,
     collapseWhitespace: true,
     // keepClosingSlash: true,
-  } :
-  false;
+  };
 
 export default {
   input: "./src/index.ts",
@@ -24,18 +28,18 @@ export default {
     name: "index",
     file: `${dist}/index.js`,
     format: "iife",
-    sourcemap: !isProduction,
+    sourcemap: useSourceMap,
   },
   plugins: [
     typescript({
-      sourceMap: !isProduction
+      sourceMap: useSourceMap
     }),
     resolve({
       browser: true,
       dedupe: ["svelte"],
     }),
     svelte({
-      dev: !isProduction,
+      dev: useSvelteDev,
       preprocess: sveltePreprocessor({
         // postcss: {
         //   plugins: [require("autoprefixer")],
@@ -47,9 +51,9 @@ export default {
       template: "./template/template.html",
       minify,
     }),
-    isProduction && terser(),
-    !isProduction && serve(dist),
-    !isProduction && livereload(dist),
+    useTerser && terser(),
+    useServe && serve(dist),
+    useLivereload && livereload(dist),
   ],
   watch: {
     clearScreen: false,
