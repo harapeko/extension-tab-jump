@@ -1,12 +1,19 @@
-import typescript from "@rollup/plugin-typescript";
+import html2 from "rollup-plugin-html2";
 import resolve from "@rollup/plugin-node-resolve";
 import svelte from "rollup-plugin-svelte";
-import html2 from "rollup-plugin-html2";
 import sveltePreprocessor from "svelte-preprocess";
 import { terser } from "rollup-plugin-terser";
+import typescript from "@rollup/plugin-typescript";
 
 const isProduction = process.env.NODE_ENV === "production";
 const dist = isProduction ? "prod" : "dev";
+const minify = isProduction
+  ? {
+      removeComments: true,
+      collapseWhitespace: true,
+      // keepClosingSlash: true,
+    }
+  : false;
 
 export default {
   input: "./src/index.ts",
@@ -17,29 +24,24 @@ export default {
     sourcemap: !isProduction,
   },
   plugins: [
-    typescript({
-      sourceMap: !isProduction,
-    }),
-    resolve(),
+    typescript({ sourceMap: !isProduction }),
+    resolve({ browser: true, dedupe: ["svelte"] }),
     svelte({
       dev: !isProduction,
-      extensions: [".svelte"],
       preprocess: sveltePreprocessor({
-        postcss: {
-          plugins: [require("autoprefixer")],
-        },
+        // postcss: {
+        //   plugins: [require("autoprefixer")],
+        // },
       }),
     }),
     html2({
+      fileName: "index.html",
       template: "./template/template.html",
-      minify: isProduction
-        ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            keepClosingSlash: true,
-          }
-        : false,
+      minify,
     }),
     isProduction && terser(),
   ],
+  watch: {
+    clearScreen: false,
+  },
 };
