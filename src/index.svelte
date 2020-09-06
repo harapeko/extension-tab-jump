@@ -12,6 +12,6 @@
     appearance: none
 </style>
 
-<template lang="pug">
-  h1 {message} {a} + {b} + {c} + {d}
+<template>
+  <h1>{message} {a} + {b} + {c} + {d}</h1>
 </template>
