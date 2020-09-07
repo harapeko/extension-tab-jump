@@ -16,11 +16,7 @@ const isDevelopment = process.env.NODE_ENV === "development",
   useTerser = isDevelopment,
   useServe = !!process.env.ROLLUP_WATCH,
   useLivereload = !!process.env.ROLLUP_WATCH,
-  minify = isDevelopment ? false : {
-    removeComments: true,
-    collapseWhitespace: true,
-    // keepClosingSlash: true,
-  };
+  useMinify = !isDevelopment;
 
 export default {
   input: "./src/index.ts",
@@ -49,7 +45,11 @@ export default {
     html2({
       fileName: "index.html",
       template: "./template/template.html",
-      minify,
+      minify: useMinify && {
+        removeComments: true,
+        collapseWhitespace: true,
+        // keepClosingSlash: true,
+      }
     }),
     useTerser && terser(),
     useServe && serve(dist),
