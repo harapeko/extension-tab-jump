@@ -1,4 +1,7 @@
-import { terser } from "rollup-plugin-terser";
+import {
+  terser
+} from "rollup-plugin-terser";
+import del from "rollup-plugin-delete";
 import html2 from "rollup-plugin-html2";
 import livereload from "rollup-plugin-livereload";
 import resolve from "@rollup/plugin-node-resolve";
@@ -25,6 +28,9 @@ export default {
     sourcemap: useSourceMap,
   },
   plugins: [
+    del({
+      targets: dist
+    }),
     typescript({
       sourceMap: useSourceMap,
     }),
