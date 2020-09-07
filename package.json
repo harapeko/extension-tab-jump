@@ -1,14 +1,15 @@
 {
   "name": "chrome-extension-tab-jump",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
     "dev": "rollup -cw",
     "build": "rollup -c",
+    "release": "release-it",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "harapeko",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^9.0.0",
@@ -23,6 +24,7 @@
     "eslint-plugin-svelte3": "^2.7.3",
     "prettier": "^2.1.1",
     "prettier-plugin-svelte": "^1.2.1",
+    "release-it": "^14.0.2",
     "rollup": "^2.26.9",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-html2": "^2.0.0",
