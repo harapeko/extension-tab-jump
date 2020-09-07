@@ -1,6 +1,4 @@
-import {
-  terser
-} from "rollup-plugin-terser";
+import { terser } from "rollup-plugin-terser";
 import html2 from "rollup-plugin-html2";
 import livereload from "rollup-plugin-livereload";
 import resolve from "@rollup/plugin-node-resolve";
@@ -9,14 +7,14 @@ import svelte from "rollup-plugin-svelte";
 import sveltePreprocessor from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
 
-const isDevelopment = process.env.NODE_ENV === "development",
-  dist = isDevelopment ? "./dev" : "./prod",
-  useSvelteDev = !isDevelopment,
-  useSourceMap = !isDevelopment,
-  useTerser = isDevelopment,
-  useServe = !!process.env.ROLLUP_WATCH,
-  useLivereload = !!process.env.ROLLUP_WATCH,
-  useMinify = !isDevelopment;
+const isDev = !!process.env.ROLLUP_WATCH,
+  dist = isDev ? "./dev" : "./build",
+  useSvelteDev = isDev,
+  useSourceMap = isDev,
+  useServe = isDev,
+  useLivereload = isDev,
+  useTerser = !isDev,
+  useMinify = !isDev;
 
 export default {
   input: "./src/index.ts",
@@ -28,7 +26,7 @@ export default {
   },
   plugins: [
     typescript({
-      sourceMap: useSourceMap
+      sourceMap: useSourceMap,
     }),
     resolve({
       browser: true,
@@ -49,7 +47,7 @@ export default {
         removeComments: true,
         collapseWhitespace: true,
         // keepClosingSlash: true,
-      }
+      },
     }),
     useTerser && terser(),
     useServe && serve(dist),

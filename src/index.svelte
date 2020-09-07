@@ -4,7 +4,8 @@
   const a: string = "Svelte",
     b: string = "Typescript",
     c: string = "Sass",
-    d: string = "Rollup";
+    d: string = "Rollup",
+    e: string = "Livereload";
 </script>
 
 <style lang="sass">
@@ -13,5 +14,5 @@
 </style>
 
 <template>
-  <h1>{message} {a} + {b} + {c} + {d}</h1>
+  <h1>{message} {a} + {b} + {c} + {d} + {e}</h1>
 </template>
