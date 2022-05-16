@@ -24,7 +24,7 @@
     "eslint-plugin-svelte3": "2.7.3",
     "prettier": "2.1.1",
     "prettier-plugin-svelte": "1.2.1",
-    "release-it": "14.0.2",
+    "release-it": "14.14.3",
     "rollup": "2.26.9",
     "rollup-plugin-delete": "2.0.0",
     "rollup-plugin-html2": "2.0.0",
